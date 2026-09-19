@@ -5,10 +5,10 @@ LDFLAGS := -s -w -X main.version=$(VERSION)
 .PHONY: build run test lint clean release
 
 build:
-	go build -ldflags "$(LDFLAGS)" -o bin/$(BINARY) ./cmd/micoprompt
+	go build -ldflags "$(LDFLAGS)" -o bin/$(BINARY) ./cmd
 
 run: build
-	./bin/$(BINARY) -dir . -out prompt.txt
+	./bin/$(BINARY) -dir . -out micoprompt.txt
 
 test:
 	go test ./...
@@ -21,6 +21,6 @@ clean:
 
 # кросс-компиляция
 release:
-	GOOS=linux   GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-linux-amd64    ./cmd/micoprompt
-	GOOS=darwin  GOARCH=arm64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-darwin-arm64   ./cmd/micoprompt
-	GOOS=windows GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-windows-amd64.exe ./cmd/micoprompt
+	GOOS=linux   GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-linux-amd64    ./cmd/
+	GOOS=darwin  GOARCH=arm64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-darwin-arm64   ./cmd/
+	GOOS=windows GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o dist/$(BINARY)-windows-amd64.exe ./cmd/

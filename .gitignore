@@ -1,7 +1,5 @@
-bin/
 dist/
-micoprompt.exe
-
+micoprompt.txt
 prompt.txt
 prompt-*.txt
 

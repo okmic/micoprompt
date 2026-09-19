@@ -7,36 +7,31 @@ import (
 	"strings"
 )
 
-// Options — настройки сканирования.
 type Options struct {
 	Dir          string
-	Extensions   []string // например: [".go", ".md"]
-	IgnoreDirs   []string // например: [".git", "node_modules"]
-	IgnoreFiles  []string // конкретные имена
-	MaxFileSize  int64    // в байтах
-	MaxTotal     int64    // в байтах, 0 = без лимита
-	UseGitignore bool     // читать .gitignore
+	Extensions   []string
+	IgnoreDirs   []string
+	IgnoreFiles  []string
+	MaxFileSize  int64
+	MaxTotal     int64
+	UseGitignore bool
 }
 
-// File — найденный файл.
 type File struct {
-	Path    string // относительный путь
+	Path    string
 	Content []byte
 	Size    int64
 }
 
-// Result — итог сканирования.
 type Result struct {
 	Files     []File
 	Skipped   int
 	TotalSize int64
 }
 
-// Scan обходит папку и возвращает отфильтрованные файлы.
 func Scan(opts Options) (*Result, error) {
 	res := &Result{}
 
-	// нормализуем расширения (на случай ".go" vs "go")
 	exts := make([]string, len(opts.Extensions))
 	for i, e := range opts.Extensions {
 		if !strings.HasPrefix(e, ".") {
@@ -52,12 +47,11 @@ func Scan(opts Options) (*Result, error) {
 
 	err := filepath.WalkDir(opts.Dir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
-			return nil // пропускаем недоступные файлы
+			return nil
 		}
 
 		name := d.Name()
 
-		// игнорируем папки целиком
 		if d.IsDir() {
 			if ignoreSet[name] {
 				return filepath.SkipDir
@@ -65,7 +59,6 @@ func Scan(opts Options) (*Result, error) {
 			return nil
 		}
 
-		// фильтр по имени файла
 		for _, ig := range opts.IgnoreFiles {
 			if name == ig {
 				res.Skipped++
@@ -73,7 +66,6 @@ func Scan(opts Options) (*Result, error) {
 			}
 		}
 
-		// фильтр по расширению
 		if len(exts) > 0 {
 			ext := strings.ToLower(filepath.Ext(path))
 			if !contains(exts, ext) {
@@ -82,7 +74,6 @@ func Scan(opts Options) (*Result, error) {
 			}
 		}
 
-		// размер файла
 		info, err := d.Info()
 		if err != nil {
 			res.Skipped++
@@ -93,26 +84,22 @@ func Scan(opts Options) (*Result, error) {
 			return nil
 		}
 
-		// общий лимит
 		if opts.MaxTotal > 0 && res.TotalSize+info.Size() > opts.MaxTotal {
 			res.Skipped++
 			return nil
 		}
 
-		// читаем содержимое
 		data, err := os.ReadFile(path)
 		if err != nil {
 			res.Skipped++
 			return nil
 		}
 
-		// бинарник?
 		if isBinary(data) {
 			res.Skipped++
 			return nil
 		}
 
-		// относительный путь для красоты
 		rel, err := filepath.Rel(opts.Dir, path)
 		if err != nil {
 			rel = path
@@ -139,7 +126,6 @@ func contains(s []string, v string) bool {
 	return false
 }
 
-// isBinary определяет, бинарный ли файл (по наличию \x00 в первых 512 байтах).
 func isBinary(data []byte) bool {
 	n := len(data)
 	if n > 512 {

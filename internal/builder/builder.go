@@ -7,23 +7,20 @@ import (
 	"github.com/Mico/micoprompt/internal/scanner"
 )
 
-// Format — формат вывода.
 type Format string
 
 const (
-	FormatPlain    Format = "plain"    // ===== FILE =====
-	FormatMarkdown Format = "markdown" // ## FILE + ```code```
-	FormatXML      Format = "xml"      // <file path="...">...</file>
+	FormatPlain    Format = "plain"
+	FormatMarkdown Format = "markdown"
+	FormatXML      Format = "xml"
 )
 
-// Options — настройки сборки.
 type Options struct {
 	Format Format
-	Header string // произвольный заголовок в начале промпта
-	Footer string // произвольный футер
+	Header string
+	Footer string
 }
 
-// Build собирает все файлы в один промпт.
 func Build(files []scanner.File, opts Options) string {
 	var b strings.Builder
 

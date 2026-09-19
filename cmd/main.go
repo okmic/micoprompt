@@ -52,14 +52,12 @@ func main() {
 		fatal("ошибка сканирования: %v", err)
 	}
 
-	// 2. Собираем промпт
 	prompt := builder.Build(res.Files, builder.Options{
 		Format: builder.Format(*format),
 		Header: *header,
 		Footer: *footer,
 	})
 
-	// 3. Пишем
 	if *out == "-" {
 		fmt.Print(prompt)
 	} else {
@@ -68,7 +66,6 @@ func main() {
 		}
 	}
 
-	// 4. Статистика
 	tokens := tokenizer.Estimate(prompt)
 	fmt.Printf("✅ Готово за %s\n", time.Since(start).Round(time.Millisecond))
 	fmt.Printf("   Файлов:    %d\n", len(res.Files))
