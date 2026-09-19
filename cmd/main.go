@@ -17,7 +17,7 @@ const version = "0.1.0"
 func main() {
 	var (
 		dir         = flag.String("dir", ".", "папка для обхода")
-		out         = flag.String("out", "prompt.txt", "выходной файл (- для stdout)")
+		out         = flag.String("out", "micoprompt.txt", "выходной файл (- для stdout)")
 		ext         = flag.String("ext", ".go,.md,.txt,.mod,.yaml,.yml,.json", "расширения через запятую")
 		ignore      = flag.String("ignore", ".git,node_modules,vendor,dist,build,.idea,.vscode", "игнорируемые папки")
 		ignoreFiles = flag.String("ignore-files", ".env,.DS_Store", "игнорируемые имена файлов")
@@ -105,7 +105,7 @@ func usage() {
   micoprompt [флаги]
 
 Примеры:
-  micoprompt -dir ./src -out prompt.txt
+  micoprompt -dir ./src -out micoprompt.txt
   micoprompt -dir ./src -format xml -out - | pbcopy
   micoprompt -dir ./src -ext .go,.md -ignore .git,vendor
 
