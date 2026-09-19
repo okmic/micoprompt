@@ -1,0 +1,13 @@
+bin/
+dist/
+micoprompt
+micoprompt.exe
+
+prompt.txt
+prompt-*.txt
+
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
