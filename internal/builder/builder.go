@@ -79,8 +79,12 @@ func langFromExt(path string) string {
 		return "python"
 	case "js":
 		return "javascript"
+	case "jsx":
+		return "react-javascript"
 	case "ts":
 		return "typescript"
+	case "tsx":
+		return "react-typescript"
 	case "rs":
 		return "rust"
 	case "md":
