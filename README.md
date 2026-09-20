@@ -25,6 +25,11 @@ micoprompt
 
 Рядом появится `micoprompt.txt`.
 
+
+# Не забудь игнорить в проекте файлы **/micoprompt*
+.gitignore
+**/micoprompt*
+
 ```bash
 micoprompt -dir ./src
 micoprompt -out - | pbcopy
